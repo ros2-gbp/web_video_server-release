@@ -1,0 +1,12 @@
+Source: ros-dashing-web-video-server
+Section: misc
+Priority: extra
+Maintainer: Russell Toris <rctoris@wpi.edu>
+Build-Depends: debhelper (>= 9.0.0), ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-dashing-ament-cmake-ros, ros-dashing-async-web-server-cpp, ros-dashing-cv-bridge, ros-dashing-image-transport, ros-dashing-rclcpp, ros-dashing-sensor-msgs, ros-dashing-ros-workspace
+Homepage: http://ros.org/wiki/web_video_server
+Standards-Version: 3.9.2
+
+Package: ros-dashing-web-video-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-dashing-async-web-server-cpp, ros-dashing-cv-bridge, ros-dashing-image-transport, ros-dashing-rclcpp, ros-dashing-sensor-msgs, ros-dashing-ros-workspace
+Description: HTTP Streaming of ROS Image Topics in Multiple Formats
