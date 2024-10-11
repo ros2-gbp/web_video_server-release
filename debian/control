@@ -1,0 +1,12 @@
+Source: ros-rolling-web-video-server
+Section: misc
+Priority: optional
+Maintainer: Błażej Sowa <blazej@fictionlab.pl>
+Build-Depends: debhelper (>= 9.0.0), ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-rolling-ament-cmake-copyright <!nocheck>, ros-rolling-ament-cmake-cpplint <!nocheck>, ros-rolling-ament-cmake-lint-cmake <!nocheck>, ros-rolling-ament-cmake-ros, ros-rolling-ament-cmake-uncrustify <!nocheck>, ros-rolling-ament-cmake-xmllint <!nocheck>, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-async-web-server-cpp, ros-rolling-cv-bridge, ros-rolling-image-transport, ros-rolling-rclcpp, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Homepage: http://ros.org/wiki/web_video_server
+Standards-Version: 3.9.2
+
+Package: ros-rolling-web-video-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-rolling-async-web-server-cpp, ros-rolling-cv-bridge, ros-rolling-image-transport, ros-rolling-rclcpp, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Description: HTTP Streaming of ROS Image Topics in Multiple Formats
