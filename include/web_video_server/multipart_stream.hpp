@@ -1,3 +1,4 @@
+// Copyright (c) 2014, Worcester Polytechnic Institute
 // Copyright (c) 2024, The Robot Web Tools Contributors
 // All rights reserved.
 //
@@ -27,54 +28,53 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "web_video_server/h264_streamer.hpp"
+#pragma once
+
+#include <queue>
+#include <memory>
+#include <vector>
+#include <string>
+
+#include "rclcpp/rclcpp.hpp"
+#include "async_web_server_cpp/http_connection.hpp"
 
 namespace web_video_server
 {
 
-H264Streamer::H264Streamer(
-  const async_web_server_cpp::HttpRequest & request,
-  async_web_server_cpp::HttpConnectionPtr connection, rclcpp::Node::SharedPtr node)
-: LibavStreamer(request, connection, node, "mp4", "libx264", "video/mp4")
+struct PendingFooter
 {
-  /* possible quality presets:
-   * ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo
-   * no latency improvements observed with ultrafast instead of medium
-   */
-  preset_ = request.get_query_param_value_or_default("preset", "ultrafast");
-}
+  rclcpp::Time timestamp;
+  std::weak_ptr<std::string> contents;
+};
 
-H264Streamer::~H264Streamer()
+class MultipartStream
 {
-}
+public:
+  MultipartStream(
+    std::function<rclcpp::Time()> get_now,
+    async_web_server_cpp::HttpConnectionPtr & connection,
+    const std::string & boundry = "boundarydonotcross",
+    std::size_t max_queue_size = 1);
 
-void H264Streamer::initializeEncoder()
-{
-  av_opt_set(codec_context_->priv_data, "preset", preset_.c_str(), 0);
-  av_opt_set(codec_context_->priv_data, "tune", "zerolatency", 0);
-  av_opt_set_int(codec_context_->priv_data, "crf", 20, 0);
-  av_opt_set_int(codec_context_->priv_data, "bufsize", 100, 0);
-  av_opt_set_int(codec_context_->priv_data, "keyint", 30, 0);
-  av_opt_set_int(codec_context_->priv_data, "g", 1, 0);
+  void sendInitialHeader();
+  void sendPartHeader(const rclcpp::Time & time, const std::string & type, size_t payload_size);
+  void sendPartFooter(const rclcpp::Time & time);
+  void sendPartAndClear(
+    const rclcpp::Time & time, const std::string & type,
+    std::vector<unsigned char> & data);
+  void sendPart(
+    const rclcpp::Time & time, const std::string & type, const boost::asio::const_buffer & buffer,
+    async_web_server_cpp::HttpConnection::ResourcePtr resource);
 
-  // container format options
-  if (!strcmp(format_context_->oformat->name, "mp4")) {
-    // set up mp4 for streaming (instead of seekable file output)
-    av_dict_set(&opt_, "movflags", "+frag_keyframe+empty_moov+faststart", 0);
-  }
-}
+private:
+  bool isBusy();
 
-H264StreamerType::H264StreamerType()
-: LibavStreamerType("mp4", "libx264", "video/mp4")
-{
-}
-
-std::shared_ptr<ImageStreamer> H264StreamerType::create_streamer(
-  const async_web_server_cpp::HttpRequest & request,
-  async_web_server_cpp::HttpConnectionPtr connection,
-  rclcpp::Node::SharedPtr node)
-{
-  return std::make_shared<H264Streamer>(request, connection, node);
-}
+private:
+  std::function<rclcpp::Time()> get_now_;
+  const std::size_t max_queue_size_;
+  async_web_server_cpp::HttpConnectionPtr connection_;
+  std::string boundry_;
+  std::queue<PendingFooter> pending_footers_;
+};
 
 }  // namespace web_video_server

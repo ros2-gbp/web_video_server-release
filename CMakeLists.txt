@@ -10,7 +10,7 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 find_package(OpenCV REQUIRED)
-find_package(Boost REQUIRED COMPONENTS thread)
+find_package(Boost REQUIRED COMPONENTS system)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(avcodec libavcodec REQUIRED)
@@ -30,9 +30,12 @@ endif()
 ## Build ##
 ###########
 
+if(${cv_bridge_VERSION} VERSION_LESS "3.3.0")
+  add_compile_definitions(CV_BRIDGE_USES_OLD_HEADERS)
+endif()
+
 ## Specify additional locations of header files
 include_directories(include
-  ${Boost_INCLUDE_DIRS}
   ${avcodec_INCLUDE_DIRS}
   ${avformat_INCLUDE_DIRS}
   ${avutil_INCLUDE_DIRS}
@@ -51,22 +54,27 @@ add_executable(${PROJECT_NAME}
   src/ros_compressed_streamer.cpp
   src/jpeg_streamers.cpp
   src/png_streamers.cpp
+  src/utils.cpp
 )
 
 ament_target_dependencies(${PROJECT_NAME}
-  async_web_server_cpp cv_bridge image_transport rclcpp sensor_msgs)
+  sensor_msgs
+)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
-  ${Boost_LIBRARIES}
+  async_web_server_cpp::async_web_server_cpp
+  cv_bridge::cv_bridge
+  image_transport::image_transport
+  rclcpp::rclcpp
+  Boost::boost
+  Boost::system
   ${OpenCV_LIBS}
   ${avcodec_LIBRARIES}
   ${avformat_LIBRARIES}
   ${avutil_LIBRARIES}
   ${swscale_LIBRARIES}
 )
-
-ament_package()
 
 #############
 ## Install ##
@@ -77,7 +85,21 @@ install(TARGETS ${PROJECT_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/${PROJECT_NAME}/
-   DESTINATION include/${PROJECT_NAME}
-   FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
-)
+###########
+## Tests ##
+###########
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+
+  # Skip ament_copyright check for humble
+  if($ENV{ROS_DISTRO} STREQUAL "humble")
+    list(APPEND AMENT_LINT_AUTO_EXCLUDE
+      ament_cmake_copyright
+    )
+  endif()
+
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
