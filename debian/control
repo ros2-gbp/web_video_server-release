@@ -1,0 +1,12 @@
+Source: ros-iron-web-video-server
+Section: misc
+Priority: optional
+Maintainer: Błażej Sowa <blazej@fictionlab.pl>
+Build-Depends: debhelper (>= 9.0.0), ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-iron-ament-cmake-copyright <!nocheck>, ros-iron-ament-cmake-cpplint <!nocheck>, ros-iron-ament-cmake-lint-cmake <!nocheck>, ros-iron-ament-cmake-ros, ros-iron-ament-cmake-uncrustify <!nocheck>, ros-iron-ament-cmake-xmllint <!nocheck>, ros-iron-ament-lint-auto <!nocheck>, ros-iron-async-web-server-cpp, ros-iron-cv-bridge, ros-iron-image-transport, ros-iron-rclcpp, ros-iron-sensor-msgs, ros-iron-ros-workspace
+Homepage: http://ros.org/wiki/web_video_server
+Standards-Version: 3.9.2
+
+Package: ros-iron-web-video-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, ros-iron-async-web-server-cpp, ros-iron-cv-bridge, ros-iron-image-transport, ros-iron-rclcpp, ros-iron-sensor-msgs, ros-iron-ros-workspace
+Description: HTTP Streaming of ROS Image Topics in Multiple Formats
