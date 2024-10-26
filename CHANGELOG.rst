@@ -2,6 +2,11 @@
 Changelog for package web_video_server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.1 (2024-10-26)
+------------------
+* Add ros_environment to test dependencies (#166)
+* Contributors: Błażej Sowa
+
 2.0.0 (2024-10-11)
 ------------------
 * Replace boost with std (#164)
