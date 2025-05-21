@@ -1,3 +1,26 @@
+## web_video_server (jazzy) - 2.1.0-1
+
+The packages in the `web_video_server` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy web_video_server` on `Wed, 21 May 2025 14:38:56 -0000`
+
+The `web_video_server` package was released.
+
+Version of package(s) in repository `web_video_server`:
+
+- upstream repository: https://github.com/RobotWebTools/web_video_server.git
+- release repository: https://github.com/ros2-gbp/web_video_server-release.git
+- rosdistro version: `2.0.0-1`
+- old version: `2.0.0-1`
+- new version: `2.1.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.25.1`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## web_video_server (humble) - 2.1.0-1
 
 The packages in the `web_video_server` repository were released into the `humble` distro by running `/usr/bin/bloom-release --rosdistro humble web_video_server` on `Wed, 21 May 2025 14:37:21 -0000`
