@@ -54,26 +54,19 @@ namespace web_video_server
  * @class WebVideoServer
  * @brief
  */
-class WebVideoServer
+class WebVideoServer : public rclcpp::Node
 {
 public:
   /**
    * @brief  Constructor
    * @return
    */
-  explicit WebVideoServer(rclcpp::Node::SharedPtr & node);
+  explicit WebVideoServer(const rclcpp::NodeOptions & options);
 
   /**
    * @brief  Destructor - Cleans up
    */
   virtual ~WebVideoServer();
-
-  /**
-   * @brief  Starts the server and spins
-   */
-  void spin();
-
-  void setup_cleanup_inactive_streams();
 
   bool handle_request(
     const async_web_server_cpp::HttpRequest & request,
@@ -101,11 +94,10 @@ public:
     const char * begin, const char * end);
 
 private:
-  void restreamFrames(double max_age);
+  void restreamFrames(std::chrono::duration<double> max_age);
   void cleanup_inactive_streams();
 
-  rclcpp::Node::SharedPtr node_;
-  rclcpp::WallTimer<rclcpp::VoidCallbackType>::SharedPtr cleanup_timer_;
+  rclcpp::TimerBase::SharedPtr cleanup_timer_;
 
   // Parameters
   int ros_threads_;
