@@ -27,61 +27,21 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+#include "rclcpp/rclcpp.hpp"
 
-#pragma once
+#include "web_video_server/web_video_server.hpp"
 
-#include <memory>
-#include <string>
-
-#include "image_transport/image_transport.hpp"
-#include "web_video_server/image_streamer.hpp"
-#include "async_web_server_cpp/http_request.hpp"
-#include "async_web_server_cpp/http_connection.hpp"
-#include "web_video_server/multipart_stream.hpp"
-
-namespace web_video_server
+int main(int argc, char ** argv)
 {
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<web_video_server::WebVideoServer>(rclcpp::NodeOptions());
 
-class MjpegStreamer : public ImageTransportImageStreamer
-{
-public:
-  MjpegStreamer(
-    const async_web_server_cpp::HttpRequest & request,
-    async_web_server_cpp::HttpConnectionPtr connection,
-    rclcpp::Node::SharedPtr node);
-  ~MjpegStreamer();
+  node->declare_parameter("ros_threads", 2);
+  int ros_threads;
+  node->get_parameter("ros_threads", ros_threads);
+  rclcpp::executors::MultiThreadedExecutor spinner(rclcpp::ExecutorOptions(), ros_threads);
+  spinner.add_node(node);
+  spinner.spin();
 
-protected:
-  virtual void sendImage(const cv::Mat &, const std::chrono::steady_clock::time_point & time);
-
-private:
-  MultipartStream stream_;
-  int quality_;
-};
-
-class MjpegStreamerType : public ImageStreamerType
-{
-public:
-  std::shared_ptr<ImageStreamer> create_streamer(
-    const async_web_server_cpp::HttpRequest & request,
-    async_web_server_cpp::HttpConnectionPtr connection,
-    rclcpp::Node::SharedPtr node);
-  std::string create_viewer(const async_web_server_cpp::HttpRequest & request);
-};
-
-class JpegSnapshotStreamer : public ImageTransportImageStreamer
-{
-public:
-  JpegSnapshotStreamer(
-    const async_web_server_cpp::HttpRequest & request,
-    async_web_server_cpp::HttpConnectionPtr connection, rclcpp::Node::SharedPtr node);
-  ~JpegSnapshotStreamer();
-
-protected:
-  virtual void sendImage(const cv::Mat &, const std::chrono::steady_clock::time_point & time);
-
-private:
-  int quality_;
-};
-
-}  // namespace web_video_server
+  return 0;
+}
