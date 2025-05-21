@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 3.5)
 project(web_video_server)
 
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
 find_package(ament_cmake_ros REQUIRED)
 
 find_package(async_web_server_cpp REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(image_transport REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 find_package(OpenCV REQUIRED)
@@ -42,8 +47,8 @@ include_directories(include
   ${swscale_INCLUDE_DIRS}
 )
 
-## Declare a cpp executable
-add_executable(${PROJECT_NAME}
+## Declare a cpp library
+add_library(${PROJECT_NAME} SHARED
   src/web_video_server.cpp
   src/image_streamer.cpp
   src/libav_streamer.cpp
@@ -57,16 +62,14 @@ add_executable(${PROJECT_NAME}
   src/utils.cpp
 )
 
-ament_target_dependencies(${PROJECT_NAME}
-  sensor_msgs
-)
-
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
   async_web_server_cpp::async_web_server_cpp
   cv_bridge::cv_bridge
   image_transport::image_transport
   rclcpp::rclcpp
+  rclcpp_components::component
+  ${sensor_msgs_TARGETS}
   Boost::boost
   Boost::system
   ${OpenCV_LIBS}
@@ -76,12 +79,39 @@ target_link_libraries(${PROJECT_NAME}
   ${swscale_LIBRARIES}
 )
 
+## Declare a cpp executable
+add_executable(${PROJECT_NAME}_node
+  src/web_video_server_node.cpp
+)
+
+target_link_libraries(${PROJECT_NAME}_node
+  ${PROJECT_NAME}
+)
+
+rclcpp_components_register_nodes(${PROJECT_NAME} "web_video_server::WebVideoServer")
+
 #############
 ## Install ##
 #############
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}
+install(
+  DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
+)
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+
+set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+install(
+  TARGETS ${PROJECT_NAME}_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
