@@ -1,3 +1,26 @@
+## web_video_server (kilted) - 2.1.1-1
+
+The packages in the `web_video_server` repository were released into the `kilted` distro by running `/usr/bin/bloom-release --rosdistro kilted web_video_server` on `Tue, 02 Sep 2025 22:56:36 -0000`
+
+The `web_video_server` package was released.
+
+Version of package(s) in repository `web_video_server`:
+
+- upstream repository: https://github.com/RobotWebTools/web_video_server.git
+- release repository: https://github.com/ros2-gbp/web_video_server-release.git
+- rosdistro version: `2.1.0-1`
+- old version: `2.1.0-1`
+- new version: `2.1.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.13.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## web_video_server (jazzy) - 2.1.1-1
 
 The packages in the `web_video_server` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy web_video_server` on `Tue, 02 Sep 2025 22:55:01 -0000`
