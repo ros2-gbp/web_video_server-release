@@ -1,0 +1,12 @@
+Source: ros-kilted-web-video-server
+Section: misc
+Priority: optional
+Maintainer: Błażej Sowa <blazej@fictionlab.pl>
+Build-Depends: debhelper (>= 9.0.0), ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libboost-all-dev, libswscale-dev, pkg-config, ros-kilted-ament-cmake-copyright <!nocheck>, ros-kilted-ament-cmake-cpplint <!nocheck>, ros-kilted-ament-cmake-lint-cmake <!nocheck>, ros-kilted-ament-cmake-ros, ros-kilted-ament-cmake-uncrustify <!nocheck>, ros-kilted-ament-cmake-xmllint <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-async-web-server-cpp, ros-kilted-cv-bridge, ros-kilted-image-transport, ros-kilted-rclcpp, ros-kilted-rclcpp-components, ros-kilted-ros-environment <!nocheck>, ros-kilted-sensor-msgs, ros-kilted-ros-workspace
+Homepage: http://ros.org/wiki/web_video_server
+Standards-Version: 3.9.2
+
+Package: ros-kilted-web-video-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libboost-all-dev, libswscale-dev, ros-kilted-async-web-server-cpp, ros-kilted-cv-bridge, ros-kilted-image-transport, ros-kilted-rclcpp, ros-kilted-rclcpp-components, ros-kilted-sensor-msgs, ros-kilted-ros-workspace
+Description: HTTP Streaming of ROS Image Topics in Multiple Formats
