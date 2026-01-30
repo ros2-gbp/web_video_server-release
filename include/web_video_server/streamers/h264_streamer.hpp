@@ -1,5 +1,4 @@
-// Copyright (c) 2014, Worcester Polytechnic Institute
-// Copyright (c) 2024, The Robot Web Tools Contributors
+// Copyright (c) 2024-2025, The Robot Web Tools Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,38 +32,41 @@
 #include <memory>
 #include <string>
 
-#include "image_transport/image_transport.hpp"
-#include "web_video_server/libav_streamer.hpp"
 #include "async_web_server_cpp/http_request.hpp"
 #include "async_web_server_cpp/http_connection.hpp"
+#include "rclcpp/node.hpp"
+
+#include "web_video_server/streamer.hpp"
+#include "web_video_server/streamers/libav_streamer.hpp"
 
 namespace web_video_server
 {
+namespace streamers
+{
 
-class Vp8Streamer : public LibavStreamer
+class H264Streamer : public LibavStreamerBase
 {
 public:
-  Vp8Streamer(
+  H264Streamer(
     const async_web_server_cpp::HttpRequest & request,
     async_web_server_cpp::HttpConnectionPtr connection,
-    rclcpp::Node::SharedPtr node);
-  ~Vp8Streamer();
+    rclcpp::Node::WeakPtr node);
+  ~H264Streamer();
 
 protected:
-  virtual void initializeEncoder();
-
-private:
-  std::string quality_;
+  virtual void initialize_encoder();
+  std::string preset_;
 };
 
-class Vp8StreamerType : public LibavStreamerType
+class H264StreamerFactory : public LibavStreamerFactoryBase
 {
 public:
-  Vp8StreamerType();
-  std::shared_ptr<ImageStreamer> create_streamer(
+  std::string get_type() {return "h264";}
+  std::shared_ptr<StreamerInterface> create_streamer(
     const async_web_server_cpp::HttpRequest & request,
     async_web_server_cpp::HttpConnectionPtr connection,
-    rclcpp::Node::SharedPtr node);
+    rclcpp::Node::WeakPtr node);
 };
 
+}  // namespace streamers
 }  // namespace web_video_server
