@@ -27,7 +27,11 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include "rclcpp/rclcpp.hpp"
+
+#include <memory>
+
+#include "rclcpp/executors/multi_threaded_executor.hpp"
+#include "rclcpp/utilities.hpp"
 
 #include "web_video_server/web_video_server.hpp"
 
