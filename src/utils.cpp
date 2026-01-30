@@ -1,4 +1,4 @@
-// Copyright (c) 2024, The Robot Web Tools Contributors
+// Copyright (c) 2024-2025, The Robot Web Tools Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,12 @@
 
 #include "web_video_server/utils.hpp"
 
+#include <optional>
+#include <string>
+
+#include "rmw/qos_profiles.h"
+#include "rmw/types.h"
+
 namespace web_video_server
 {
 
@@ -36,13 +42,14 @@ std::optional<rmw_qos_profile_t> get_qos_profile_from_name(const std::string nam
 {
   if (name == "default") {
     return rmw_qos_profile_default;
-  } else if (name == "system_default") {
-    return rmw_qos_profile_system_default;
-  } else if (name == "sensor_data") {
-    return rmw_qos_profile_sensor_data;
-  } else {
-    return std::nullopt;
   }
+  if (name == "system_default") {
+    return rmw_qos_profile_system_default;
+  }
+  if (name == "sensor_data") {
+    return rmw_qos_profile_sensor_data;
+  }
+  return std::nullopt;
 }
 
 }  // namespace web_video_server
