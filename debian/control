@@ -1,0 +1,12 @@
+Source: ros-lyrical-web-video-server
+Section: misc
+Priority: optional
+Maintainer: Błażej Sowa <blazej@fictionlab.pl>
+Build-Depends: debhelper (>= 9.0.0), ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libboost-all-dev, libopencv-dev, libswscale-dev, pkg-config, ros-lyrical-ament-cmake-clang-tidy <!nocheck>, ros-lyrical-ament-cmake-copyright <!nocheck>, ros-lyrical-ament-cmake-lint-cmake <!nocheck>, ros-lyrical-ament-cmake-ros, ros-lyrical-ament-cmake-uncrustify <!nocheck>, ros-lyrical-ament-cmake-xmllint <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-async-web-server-cpp, ros-lyrical-cv-bridge, ros-lyrical-image-transport, ros-lyrical-pluginlib, ros-lyrical-rclcpp, ros-lyrical-rclcpp-components, ros-lyrical-rmw, ros-lyrical-ros-environment <!nocheck>, ros-lyrical-sensor-msgs, ros-lyrical-ros-workspace
+Homepage: http://ros.org/wiki/web_video_server
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-web-video-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, libavcodec-dev, libavformat-dev, libavutil-dev, libboost-all-dev, libopencv-dev, libswscale-dev, ros-lyrical-async-web-server-cpp, ros-lyrical-cv-bridge, ros-lyrical-image-transport, ros-lyrical-pluginlib, ros-lyrical-rclcpp, ros-lyrical-rclcpp-components, ros-lyrical-rmw, ros-lyrical-sensor-msgs, ros-lyrical-ros-workspace
+Description: HTTP Streaming of ROS Image Topics in Multiple Formats
