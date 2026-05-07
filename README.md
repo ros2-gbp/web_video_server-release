@@ -1,3 +1,26 @@
+## web_video_server (lyrical) - 3.1.1-1
+
+The packages in the `web_video_server` repository were released into the `lyrical` distro by running `/usr/bin/bloom-release --rosdistro lyrical web_video_server` on `Thu, 07 May 2026 12:32:05 -0000`
+
+The `web_video_server` package was released.
+
+Version of package(s) in repository `web_video_server`:
+
+- upstream repository: https://github.com/RobotWebTools/web_video_server.git
+- release repository: https://github.com/ros2-gbp/web_video_server-release.git
+- rosdistro version: `3.1.0-3`
+- old version: `3.1.0-3`
+- new version: `3.1.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.3`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## web_video_server (rolling) - 3.1.0-1
 
 The packages in the `web_video_server` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --rosdistro rolling web_video_server` on `Wed, 25 Feb 2026 19:30:04 -0000`
